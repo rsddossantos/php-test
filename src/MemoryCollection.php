@@ -32,7 +32,6 @@ class MemoryCollection implements CollectionInterface
         if (!$this->has($index)) {
             return $defaultValue;
         }
-
         return $this->data[$index];
     }
 
