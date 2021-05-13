@@ -23,9 +23,10 @@ interface CollectionInterface
      *
      * @param string $index
      * @param mixed $value
+     * @param int $timeout
      * @return void
      */
-    public function set(string $index, $value);
+    public function set(string $index, $value, $timeout);
 
     /**
      * Checks whether the collection has the given index

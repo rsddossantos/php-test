@@ -25,9 +25,7 @@ class FileCollection implements CollectionInterface
     {
         $this->data = [];
         $this->file = 'tests/files/file';
-        if (file_exists($this->file)) {
-            unlink($this->file);
-        }
+        $_SESSION['CREATED'] = time();
     }
 
     /**
@@ -44,20 +42,22 @@ class FileCollection implements CollectionInterface
     /**
      * {@inheritDoc}
      */
-    public function set(string $index, $value)
+    public function set(string $index, $value, $timeout = 10)
     {
-        $this->data[$index] = $value;
-        $handle = fopen($this->file, 'w');
-        foreach ($this->data as $key => $lines) {
-            if (is_array($lines)) {
-                foreach ($lines as $keylinesarray => $linesarray) {
-                    fwrite($handle, $keylinesarray.':'.$linesarray.PHP_EOL);
+        if (time() - $_SESSION['CREATED'] < $timeout) {
+            $this->data[$index] = $value;
+            $handle = fopen($this->file, 'w');
+            foreach ($this->data as $key => $lines) {
+                if (is_array($lines)) {
+                    foreach ($lines as $keylinesarray => $linesarray) {
+                        fwrite($handle, $keylinesarray.':'.$linesarray.PHP_EOL);
+                    }
+                } else {
+                    fwrite($handle, $key.':'.$lines.PHP_EOL);
                 }
-            } else {
-                fwrite($handle, $key.':'.$lines.PHP_EOL);
             }
+            fclose($handle);
         }
-        fclose($handle);
     }
 
     /**

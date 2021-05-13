@@ -22,6 +22,7 @@ class MemoryCollection implements CollectionInterface
     public function __construct()
     {
         $this->data = [];
+        $_SESSION['CREATED'] = time();
     }
 
     /**
@@ -38,9 +39,11 @@ class MemoryCollection implements CollectionInterface
     /**
      * {@inheritDoc}
      */
-    public function set(string $index, $value)
+    public function set(string $index, $value, $timeout = 10)
     {
-        $this->data[$index] = $value;
+        if (time() - $_SESSION['CREATED'] < $timeout) {
+            $this->data[$index] = $value;
+        }
     }
 
     /**

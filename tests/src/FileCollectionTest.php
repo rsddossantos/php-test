@@ -104,4 +104,56 @@ class FileCollectionTest extends TestCase
 
         $this->assertTrue($collection->has('index'));
     }
+
+    /**
+     * @test
+     * @depends dataCanBeAdded
+     */
+    public function timeoutDefaultValidate()
+    {
+        $collection = new FileCollection();
+        sleep(5);
+        $collection->set('index', 'value');
+
+        $this->assertTrue($collection->has('index'));
+    }
+
+    /**
+     * @test
+     * @depends dataCanBeAdded
+     */
+    public function timeoutDefaultExceededValidate()
+    {
+        $collection = new FileCollection();
+        sleep(15);
+        $collection->set('index', 'value');
+
+        $this->assertFalse($collection->has('index'));
+    }
+
+    /**
+     * @test
+     * @depends dataCanBeAdded
+     */
+    public function timeoutValidate()
+    {
+        $collection = new FileCollection();
+        sleep(4);
+        $collection->set('index', 'value', 5);
+
+        $this->assertTrue($collection->has('index'));
+    }
+
+    /**
+     * @test
+     * @depends dataCanBeAdded
+     */
+    public function timeoutExceededValidate()
+    {
+        $collection = new FileCollection();
+        sleep(11);
+        $collection->set('index', 'value', 10);
+
+        $this->assertFalse($collection->has('index'));
+    }
 }
