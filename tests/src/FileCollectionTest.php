@@ -24,11 +24,11 @@ class FileCollectionTest extends TestCase
     public function dataCanBeAdded()
     {
         $collection = new FileCollection();
-        $collection->set('tests/files/file1', 'some content');
-        $collection->set('tests/files/file1', '5000');
-        $collection->set('tests/files/file1', 'Some Content !@#$%¨&*()_');
-        $collection->set('tests/files/file1', '6.5');
-        $collection->set('tests/files/file1', 'some content'.PHP_EOL.'with more line feed');
+        $collection->set('index1', 'value');
+        $collection->set('index2', 5);
+        $collection->set('index3', true);
+        $collection->set('index4', 6.5);
+        $collection->set('index5', ['data']);
     }
 
      /**
@@ -38,9 +38,9 @@ class FileCollectionTest extends TestCase
     public function dataCanBeRetrieved()
     {
         $collection = new FileCollection();
-        $collection->set('tests/files/file2', 'value');
+        $collection->set('index1', 'value');
 
-        $this->assertEquals('value', $collection->get('tests/files/file2'));
+        $this->assertEquals('value', $collection->get('index1'));
     }
 
     /**
@@ -51,8 +51,8 @@ class FileCollectionTest extends TestCase
     {
         $collection = new FileCollection();
 
-        $this->assertNull($collection->get('tests/files/file3'));
-        $this->assertEquals('defaultValue', $collection->get('tests/files/file3', 'defaultValue'));
+        $this->assertNull($collection->get('index1'));
+        $this->assertEquals('defaultValue', $collection->get('index1', 'defaultValue'));
     }
 
     /**
@@ -72,9 +72,9 @@ class FileCollectionTest extends TestCase
     public function collectionWithItemsShouldReturnValidCount()
     {
         $collection = new FileCollection();
-        $collection->set('tests/files/file4', 'value');
-        $collection->set('tests/files/file4', '5');
-        $collection->set('tests/files/file4', 'true');
+        $collection->set('index1', 'value');
+        $collection->set('index2', 5);
+        $collection->set('index3', true);
 
         $this->assertEquals(3, $collection->count());
     }
@@ -86,7 +86,7 @@ class FileCollectionTest extends TestCase
     public function collectionCanBeCleaned()
     {
         $collection = new FileCollection();
-        $collection->set('tests/files/file5', 'value');
+        $collection->set('index', 'value');
         $this->assertEquals(1, $collection->count());
 
         $collection->clean();
@@ -100,8 +100,8 @@ class FileCollectionTest extends TestCase
     public function addedItemShouldExistInCollection()
     {
         $collection = new FileCollection();
-        $collection->set('tests/files/file6', 'value');
+        $collection->set('index', 'value');
 
-        $this->assertTrue($collection->has('tests/files/file6'));
+        $this->assertTrue($collection->has('index'));
     }
 }
